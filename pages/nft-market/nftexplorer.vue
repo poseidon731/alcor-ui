@@ -140,7 +140,9 @@ export default {
     },
 
     async getCollectionData() {
-      const data = await this.$store.dispatch('api/getCollectionData')
+      const data = await this.$store.dispatch('api/getCollectionData', {
+        author: '',
+      })
       this.collectionData = data
     },
 

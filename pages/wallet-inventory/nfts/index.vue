@@ -73,7 +73,6 @@
 
 <script>
 import { mapState } from 'vuex'
-import VueSkeletonLoader from 'skeleton-loader-vue'
 import WalletNFTTab from '~/components/wallet/WalletNFTTab'
 import CustomSkeletonVue from '~/components/CustomSkeleton'
 import HorizontalMenu from '~/components/wallet/HorizontalMenu'
@@ -86,7 +85,6 @@ export default {
   components: {
     WalletNFTTab,
     NormalCard,
-    VueSkeletonLoader,
     HorizontalMenu,
     DetailWithCardPanel,
     WalletSetTab,
@@ -251,7 +249,6 @@ export default {
       const data = await this.$store.dispatch('api/getAssets', {
         owner: this.user.name,
       })
-      console.log(data)
       this.inventoryData = data
       this.loading = false
     },
@@ -329,7 +326,7 @@ export default {
 
     async getCollectionData() {
       const data = await this.$store.dispatch('api/getCollectionData', {
-        data: 'ss',
+        author: '',
       })
       this.collectionData = data
     },
