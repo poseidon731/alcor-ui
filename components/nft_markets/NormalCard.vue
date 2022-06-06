@@ -183,11 +183,11 @@
             p Block
       nuxt-link.btn-border--green.w-100.mt-2.radius6.text-white.text-center(
         v-if='mode === "inventory"',
-        :to='"/nfts/inventory/" + data.asset_id'
+        :to='"/nfts/" + data.asset_id'
       ) Details
       nuxt-link.btn-border--green.w-100.radius6.mb-2.text-white.text-center(
-        v-if='mode === "bought"'
-        :to='"/nfts/bought/" + data.asset_id'
+        v-if='mode === "listings" || mode === "auctions" || mode === "sold" || mode === "bought"'
+        :to='"/nfts/" + data.assets[0].asset_id'
       ) Detail
       nuxt-link.btn-border--green.w-100.radius6.text-white.text-center(v-if='mode === "sets"', :to='"#sets-" + data.collection_name') View Set
 

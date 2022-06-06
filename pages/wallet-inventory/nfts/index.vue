@@ -452,6 +452,8 @@ export default {
 }
 
 div.grid-container {
+  margin-left: -30px;
+  margin-right: -30px;
   display: grid;
   grid-template-columns: auto auto auto auto;
   gap: 30px;

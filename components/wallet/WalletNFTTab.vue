@@ -12,7 +12,7 @@
         v-else='',
         @click='handleTab(tab.slug)'
       ) {{ tab.title }}
-    .d-flex.tabar-container.tradeoffertab.mb-4.wallet-nft-tab
+    .d-flex.tabar-container.tradeoffertab.mb-4.wallet-nft-tab(v-if='currentTab !== "sets"')
       label.search-input-group.d-flex.align-items-center
         img.search-icon(src='~/assets/images/search.svg', alt='')
         input.search-input.w-100(
