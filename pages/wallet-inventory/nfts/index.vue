@@ -35,7 +35,6 @@
           NormalCard(
             :data='item',
             :mode='currentTab === "sets" && detailCollectionMode ? "setsList" : ""',
-            :kindBut='currentTab !== "inventory" ? "all" : ""',
             :getOverData='getInventoryOverData',
             :overData='overData'
           )
@@ -58,7 +57,6 @@
             NormalCard(
               :data='item',
               :mode='currentTab',
-              :kindBut='currentTab !== "inventory" ? "all" : ""'
               :getOverData='getInventoryOverData'
               :overData='overData'
             )
