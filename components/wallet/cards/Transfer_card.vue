@@ -2,13 +2,14 @@
 el-row
   el-col
     el-card(:body-style='{ padding: "0px" }')
-      img(src='~/assets/images/nft.svg')
-      .card-title
-        span
-        .bottom-clearfix
-        p CandyLand
-        el-button.button(type='text')
-          p Operating
+      div.d-flex.p-1.justify-content-end
+        div.float-right.p-1.bg-black.text-success #11
+      img.w-100(src='~/assets/images/nft.svg')
+      .d-flex.justify-content-between.align-items-center.p-3
+        div CandyLand
+        .d-flex.align-items-center
+          div.small.pr-1.text-secondary Alcorex
+          img(src='~/assets/icons/check-circle.svg')
 </template>
 <script>
 export default {
