@@ -1,78 +1,76 @@
-<template lang='pug'>
-  .nfts
-    WalletNFTTab(
-      :tabData='tabData',
-      :currentTab='currentTab',
-      :handleTab='handleTab',
-      :handleSearch='handleSearch',
-      :collectionData='collectionData',
-      :handleCollection='handleCollection',
-      :searchValue='search',
-      :handleSearchValue='handleSearchValue'
-    )
-    //- HorizontalMenu(
-    //-   :tabs='currentTab != "inventory" ? (currentTab === "listings" ? horizontalTabData.normalTabs : horizontalTabData.auctionTabs) : []',
-    //-   :currentTab='currentHorizontalTab',
-    //-   :handleTab='handleHorizonalTab'
-    //- )
-    div(v-if='detailCollectionMode')
-      .d-flex.justify-content-between.align-items-center.mb-4
-        h1.text-capitalize.set-collection-name {{ setCollectionName }}
-        .progress-panel
-          .completed-sets-count Computer Sets: 2
-          el-progress.completed-sets-progress(
-            :text-inside='true',
-            :stroke-width='26',
-            :percentage='70',
-            color='#67C23A'
-          )
-      WalletSetTab
-      .grid-container
+<template lang="pug">
+.nfts
+  WalletNFTTab(
+    :tabData='tabData',
+    :currentTab='currentTab',
+    :handleTab='handleTab',
+    :handleSearch='handleSearch',
+    :collectionData='collectionData',
+    :handleCollection='handleCollection',
+    :searchValue='search',
+    :handleSearchValue='handleSearchValue'
+  )
+  //- HorizontalMenu(
+  //-   :tabs='currentTab != "inventory" ? (currentTab === "listings" ? horizontalTabData.normalTabs : horizontalTabData.auctionTabs) : []',
+  //-   :currentTab='currentHorizontalTab',
+  //-   :handleTab='handleHorizonalTab'
+  //- )
+  div(v-if='detailCollectionMode')
+    .d-flex.justify-content-between.align-items-center.mb-4
+      h1.text-capitalize.set-collection-name {{ setCollectionName }}
+      .progress-panel
+        .completed-sets-count Computer Sets: 2
+        el-progress.completed-sets-progress(
+          :text-inside='true',
+          :stroke-width='26',
+          :percentage='70',
+          color='#67C23A'
+        )
+    WalletSetTab
+    .grid-container
+      .d-flex.justify-content-center(
+        v-for='(item, index) in collectionSets',
+        :key='index'
+      )
+        NormalCard(
+          :data='item',
+          :mode='currentTab === "sets" && detailCollectionMode ? "setsList" : ""',
+          :kindBut='currentTab != "inventory" ? "all" : ""'
+          :getOverData='getInventoryOverData'
+          :overData='overData'
+        )
+  div(v-else)
+    div(v-if='currentTab === "inventory" || currentTab === "listings" || currentTab === "auctions" || currentTab === "sets"')
+      .grid-container(v-if='loading')
+        CustomSkeletonVue(
+          v-for='item in 12',
+          :key='item',
+          :width='220',
+          :height='380'
+        )
+      .grid-container(v-else)
         .d-flex.justify-content-center(
-          v-for='(item, index) in collectionSets',
+          v-for='(item, index) in inventoryData',
           :key='index'
         )
           NormalCard(
             :data='item',
-            :mode='currentTab === "sets" && detailCollectionMode ? "setsList" : ""',
-            :getOverData='getInventoryOverData',
-            :overData='overData'
-          )
-    div(v-else)
-      div(
-        v-if='currentTab === "inventory" || currentTab === "listings" || currentTab === "auctions" || currentTab === "sets"'
-      )
-        div(:class='["grid-container" ,(currentTab === "sets" ? "third-grid-container" : "")]', v-if='loading')
-          CustomSkeletonVue(
-            v-for='item in 12',
-            :key='item',
-            :width='currentTab === "sets" ? 304 : 220',
-            :height='currentTab === "sets" ? 315 : 380'
-          )
-        div(:class='["grid-container" ,(currentTab === "sets" ? "third-grid-container" : "")]', v-else)
-          .d-flex.justify-content-center(
-            v-for='(item, index) in inventoryData',
-            :key='index'
-          )
-            NormalCard(
-              :data='item',
-              :mode='currentTab',
-              :getOverData='getInventoryOverData'
-              :overData='overData'
-            )
-      div(v-else-if='currentTab === "sold" || currentTab === "bought"')
-        .d-flex.justify-content-between(v-if='loading')
-          CustomSkeletonVue(:width='600', :height='380')
-          CustomSkeletonVue(:width='220', :height='380')
-        div(v-else)
-          DetailWithCardPanel(
-            v-for='(item, index) in inventoryData',
-            :key='index',
-            :data='item',
-            :mode='currentTab'
+            :mode='currentTab',
+            :kindBut='currentTab != "inventory" ? "all" : ""'
             :getOverData='getInventoryOverData'
             :overData='overData'
           )
+    div(v-else-if='currentTab === "sold" || currentTab === "bought"')
+      .d-flex.justify-content-between(v-if='loading')
+        CustomSkeletonVue(:width='600', :height='380')
+        CustomSkeletonVue(:width='220', :height='380')
+      div(v-else)
+        DetailWithCardPanel(
+          v-for='(item, index) in inventoryData',
+          :key='index',
+          :data='item',
+          :mode='currentTab'
+        )
 </template>
 
 <script>
@@ -92,7 +90,7 @@ export default {
     HorizontalMenu,
     DetailWithCardPanel,
     WalletSetTab,
-    CustomSkeletonVue
+    CustomSkeletonVue,
   },
   data: () => ({
     search: '',
@@ -109,54 +107,54 @@ export default {
       normalTabs: [
         {
           title: 'Sales',
-          slug: 'sales'
+          slug: 'sales',
         },
         {
           title: 'Auctions',
-          slug: 'auctions'
-        }
+          slug: 'auctions',
+        },
       ],
       auctionTabs: [
         {
           title: 'Open Auctions',
-          slug: 'open-auctoins'
+          slug: 'open-auctoins',
         },
         {
           title: 'Lost Auctions',
-          slug: 'lost-auctions'
-        }
-      ]
+          slug: 'lost-auctions',
+        },
+      ],
     },
     tabData: [
       {
         title: 'Inventory',
-        slug: 'inventory'
+        slug: 'inventory',
       },
       {
         title: 'Listings',
-        slug: 'listings'
+        slug: 'listings',
       },
       {
         title: 'Auctions',
-        slug: 'auctions'
+        slug: 'auctions',
       },
       {
         title: 'Sold',
-        slug: 'sold'
+        slug: 'sold',
       },
       {
         title: 'Bought',
-        slug: 'bought'
+        slug: 'bought',
       },
       {
         title: 'Sets',
-        slug: 'sets'
-      }
+        slug: 'sets',
+      },
     ],
     selectedCollectionName: '',
     collectionSets: [],
+    overData: '',
     detailCollectionMode: false,
-    overData: ''
   }),
   computed: {
     ...mapState(['network', 'user']),
@@ -167,7 +165,7 @@ export default {
       if (this.collectionSets.length) {
         return this.collectionSets[0].collection.name
       } else return ''
-    }
+    },
   },
   watch: {
     userData(newUserData, oldUserData) {
@@ -208,7 +206,7 @@ export default {
       if (new_tab === 'sales' || new_tab === 'open-auctions') {
         this.inventoryData = this.salesData
       } else this.inventoryData = this.auctionsData
-    }
+    },
   },
   mounted() {
     this.getCollectionData()
@@ -227,18 +225,48 @@ export default {
     handleTab(value) {
       this.currentTab = value
     },
+    handleHorizonalTab(value) {
+      this.currentHorizontalTab = value
+    },
+
     async getInventoryOverData(params) {
       this.overData = ''
       const templateStats = await this.getTemplateStats(params.collection_name, params.template_id)
       const specificAsset = await this.getSpecificAsset(params.collection_name, params.template_id)
       const assetsSales = await this.getAssetsSales(params.asset_id)
-      const saleData = await this.getSaleData(params.collection_name, params.template_id)
+      const saleData = await this.getOverSale(params.collection_name, params.template_id)
       this.overData = {
         templateStats,
         specificAsset,
         assetsSales,
         saleData
       }
+    },
+
+    async getTemplateStats(collection_name, template_id) {
+      return await this.$store.dispatch('api/getTemplateStats', {
+        collection_name, template_id
+      })
+    },
+
+    async getSpecificAsset(collection_name, template_id) {
+      return await this.$store.dispatch('api/getAssets', {
+        owner: this.user.name,
+        collection_name,
+        template_id
+      })
+    },
+
+    async getAssetsSales(asset_id) {
+      return await this.$store.dispatch('api/getAssetsSales', {
+        asset_id
+      })
+    },
+
+    async getOverSale(collectionName, template_id) {
+      return await this.$store.dispatch('api/getSaleData', {
+        collectionName, template_id, symbol: 'WAX', state: 1, limit: 1
+      })
     },
     getData(value) {
       if (value === 'inventory') {
@@ -257,47 +285,26 @@ export default {
         this.getCollections()
       }
     },
-    async getTemplateStats(collection_name, template_id) {
-      return await this.$store.dispatch('api/getTemplateStats', {
-        collection_name, template_id
-      })
-    },
+
     async getAssets() {
       this.loading = true
-      this.inventoryData = await this.$store.dispatch('api/getAssets', {
-        owner: this.user.name
+      const data = await this.$store.dispatch('api/getAssets', {
+        owner: this.user.name,
       })
+      console.log(data)
+      this.inventoryData = data
       this.loading = false
     },
 
-    async getSpecificAsset(collection_name, template_id) {
-      return await this.$store.dispatch('api/getAssets', {
-        owner: this.user.name,
-        collection_name,
-        template_id
-      })
-    },
-
-    async getAssetsSales(asset_id) {
-      return await this.$store.dispatch('api/getAssetsSales', {
-        asset_id
-      })
-    },
-
-    async getSaleData(collectionName, template_id) {
-      return await this.$store.dispatch('api/getSaleData', {
-        collectionName, template_id, symbol: 'WAX', state: 1, limit: 1
-      })
-    },
     async getListing() {
       this.loading = true
       const auctionData = await this.$store.dispatch('api/getAuctionData', {
         seller: this.user.name,
-        state: '0,1,4'
+        state: '0,1,4',
       })
       const salesData = await this.$store.dispatch('api/getSales', {
         seller: this.user.name,
-        state: '0,1,4'
+        state: '0,1,4',
       })
       // this.salesData = salesData
       // this.auctionsData = auctionData
@@ -308,12 +315,12 @@ export default {
     async getAuctions() {
       this.loading = true
       const openAuctions = await this.$store.dispatch('api/getAuctionData', {
-        participant: this.user.name
+        participant: this.user.name,
       })
       const lostAuctions = await this.$store.dispatch('api/getAuctionData', {
         bidder: this.user.name,
         buyer_blacklist: this.user.name,
-        state: '3'
+        state: '3',
       })
       // this.salesData = openAuctions
       // this.auctionsData = lostAuctions
@@ -325,11 +332,11 @@ export default {
       this.loading = true
       const auctionsData = await this.$store.dispatch('api/getAuctionData', {
         seller: this.user.name,
-        state: '3'
+        state: '3',
       })
       const salesData = await this.$store.dispatch('api/getSales', {
         seller: this.user.name,
-        state: '3'
+        state: '3',
       })
       // this.salesData = openAuctions
       // this.auctionsData = lostAuctions
@@ -341,11 +348,11 @@ export default {
       this.loading = true
       const auctionsData = await this.$store.dispatch('api/getAuctionData', {
         buyer: this.user.name,
-        state: '3'
+        state: '3',
       })
       const salesData = await this.$store.dispatch('api/getSales', {
         buyer: this.user.name,
-        state: '3'
+        state: '3',
       })
       // this.salesData = openAuctions
       // this.auctionsData = lostAuctions
@@ -362,14 +369,14 @@ export default {
 
     async getCollectionData() {
       const data = await this.$store.dispatch('api/getCollectionData', {
-        author: ''
+        data: 'ss',
       })
       this.collectionData = data
     },
 
     async getCollectionSets() {
       const data = await this.$store.dispatch('api/getCollectionSets', {
-        collection_name: this.selectedCollectionName
+        collection_name: this.selectedCollectionName,
       })
       this.collectionSets = data.data
     },
@@ -385,59 +392,51 @@ export default {
 
     handleSearch() {
       this.getAssets()
-    }
-  }
+    },
+  },
 }
 </script>
-<style lang='scss'>
+<style lang="scss">
 .el-progress.completed-sets-progress {
   width: 220px;
   background: #161617;
   border-radius: 4px;
-
   .el-progress-bar__outer {
     border-radius: 4px;
-
     .el-progress-bar__inner {
       border-radius: 4px;
     }
   }
 }
 </style>
-<style lang='scss' scoped>
+<style scoped lang="scss">
 .table-header {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-
   .el-input {
     max-width: 300px;
   }
-
   .el-input__inner {
     background: transparent !important;
   }
 }
-
 .items {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 56px;
 }
-
 @media only screen and (max-width: 1040px) {
   .items {
     gap: 20px;
   }
 }
-
 @media only screen and (max-width: 840px) {
   .items {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
 }
-
 @media only screen and (max-width: 540px) {
   .items {
     grid-template-columns: 100%;
@@ -450,14 +449,8 @@ export default {
 }
 
 div.grid-container {
-  margin-left: -30px;
-  margin-right: -30px;
   display: grid;
   grid-template-columns: auto auto auto auto;
   gap: 30px;
-
-  &.third-grid-container {
-    grid-template-columns: auto auto auto;
-  }
 }
 </style>
