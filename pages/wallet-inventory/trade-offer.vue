@@ -352,7 +352,7 @@ export default {
     margin: 32px 0;
   }
 
-  div.grid-container {
+  .grid-container {
     display: grid;
     grid-template-columns: auto auto auto auto;
     gap: 30px;

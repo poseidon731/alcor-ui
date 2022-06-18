@@ -130,9 +130,7 @@
     .btn-group.justify-content-between.flex-wrap.w-100
       button.btn-fill--grey.w-50.mr10.radius6(v-if='mode === "inventory"') Sell NFT
       el-dropdown.btn-fill--green.dropdown-more.radius6.p-0.d-flex.justify-content-center.align-items-center(
-        trigger='click'
-      )(
-        v-if='mode === "inventory"'
+        trigger='click', v-if='mode === "inventory"'
       )
         span.el-dropdown-link
           span More
@@ -155,9 +153,7 @@
               img(src='~/assets/images/Burn.svg')
               p.mb-0 Burn
       el-dropdown.btn-fill--green.dropdown-more.radius6.p-0.d-flex.justify-content-center.align-items-center(
-        trigger='click'
-      )(
-        v-if='mode === "friends"'
+        trigger='click', v-if='mode === "friends"'
       )
         span.el-dropdown-link
           span More
@@ -190,13 +186,13 @@
         :to='"/nfts/" + data.assets[0].asset_id'
       ) Detail
       nuxt-link.btn-border--green.mr10.radius6.smaller-btn.text-white.text-center(
-        v-if='mode === "listings" || mode === "auctions" || mode === "sold"'
+        v-if='mode === "listings" || mode === "auctions" || mode === "sold" || mode === "market-sales" || mode === "market-auctions"'
         :to='"/nfts/" + data.assets[0].asset_id'
       ) Detail
       nuxt-link.btn-border--green.w-100.radius6.text-white.text-center(v-if='mode === "sets"', :to='"#sets-" + data.collection_name') View Set
-
+      //below for the static button that should be removed
       button.btn-border--green.mr10.radius6.smaller-btn(
-        v-if='mode !== "inventory" && mode !== "listings" && mode !== "auctions" && mode !== "sold" && mode !== "bought" && mode !== "setsList" && mode !== "assetsInventory" && mode !== "sets"'
+        v-if='mode !== "market-auctions" && mode !== "market-sales" && mode !== "inventory" && mode !== "listings" && mode !== "auctions" && mode !== "sold" && mode !== "bought" && mode !== "setsList" && mode !== "assetsInventory" && mode !== "sets"'
       ) Details
       button.btn-fill--green.bigger-btn.radius6(v-if='mode === "market-sales"') Buy
       button.btn-fill--green.bigger-btn.radius6(v-if='mode === "market-auctions"') Make Offer
@@ -524,7 +520,9 @@ export default {
       } else if (this.mode === 'inventory' || this.mode === 'assets') {
         return this.data.template.max_supply
       } else if (this.mode === 'listings' || this.mode === 'market-sales' || this.mode === 'market-auctions' || this.mode === 'bought' || this.mode === 'sold' || this.mode === 'auctions') {
-        return this.data.assets[0].template.max_supply
+        if (this.data.assets[0].template) {
+          return this.data.assets[0].template.max_supply
+        } return 0
       }
       return 0
     },
@@ -534,7 +532,9 @@ export default {
       } else if (this.mode === 'inventory' || this.mode === 'assets') {
         return this.data.template.issued_supply
       } else if (this.mode === 'listings' || this.mode === 'market-sales' || this.mode === 'market-auctions' || this.mode === 'bought' || this.mode === 'sold' || this.mode === 'auctions') {
-        return this.data.assets[0].template.issued_supply
+        if (this.data.assets[0].template) {
+          return this.data.assets[0].template.issued_supply
+        } return 0
       }
       return 0
     },
