@@ -1,29 +1,29 @@
 <template lang="pug">
   .container
-    .d-flex.align-items-center
-      img(src='~/assets/icons/transfer_page/Vector_transfer.svg')
-      p.font-page-title.p-7.mt-10.mb-0 Transfer
+    .d-flex.align-items-center.mb-4
+      img.pr-2(src='~/assets/icons/transfer_page/Vector_transfer.svg')
+      p.font-page-title.p-7.m-0 Transfer
     p.font-label.font-input Transfer to
       el-input.bg-input-black(placeholder="WAX Address/Account Name")
     p.font-label.font-input Memo
       el-input.bg-input-black(placeholder="Transfer Memo")
     .card-frame
       Transfer_card
-    el-input.bg-input-grey(placeholder="Type something" prefix-icon="el-icon-search" v-model="input2")
-    el-select.bg-input-grey(v-model="value" large placeholder="Select")
+    el-input.bg-input-grey.my-4(placeholder="Search NFTs" prefix-icon="el-icon-search" v-model="input2")
+    el-select.bg-input-grey.mb-4.w-100(v-model="value" large placeholder="Choose Collection")
       el-option(v-for="item in options" :key="item.value" :label="item.label" :value="item.value")
-    el-row
-      el-col(:span="12")
-        el-input.bg-input-black(placeholder="Transfer Memo")
-      el-col(:span="12")
-        el-input.bg-input-black(placeholder="Transfer Memo")
-    el-checkbox-group(v-model="checkList")
-      el-checkbox(label="Option A")
-      el-checkbox(label="Option A")
-      el-checkbox(label="Option A")
+    el-row.mb-4
+      el-col.pr-1(:span="12")
+        el-input.bg-input-black(placeholder="Min Mint")
+      el-col.pl-1(:span="12")
+        el-input.bg-input-black(placeholder="Max Mint")
+    el-checkbox-group.mb-4(v-model="checkList")
+      el-checkbox(size="medium" label="Only Duplicates")
+      el-checkbox(label="Only backed NFTs")
+      el-checkbox(label="Only whitelisted NFTs")
     .grid-container
-      Transfer_card(v-for="item in 15" :key='item')
-    el-button(size="large" type="success") Send Transfer
+      Transfer_card.p-2(v-for="item in 15" :key='item')
+    el-button.w-100.mt-4(size="large" type="success") Send Transfer
 </template>
 
 <script>
@@ -74,8 +74,8 @@ export default {
 <style lang="scss" scoped>
 .grid-container {
     display: grid;
-    grid-template-columns: auto auto auto auto auto;
-    gap: 30px;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    gap: 0px;
   }
 .container {
   .font-page-title {
