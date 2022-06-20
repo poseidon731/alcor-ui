@@ -28,7 +28,9 @@
           :mode='currentTab',
           :getOverData='getInventoryOverData'
           :overData='overData'
+          :handleBuyAction='handleBuyAction(item)'
         )
+    NFTBuyModal(:show_modal='show_modal', :handleCloseModal='handleCloseModal')
 </template>
 
 <script>
@@ -40,12 +42,14 @@ import searchImg from '~/assets/images/search.svg'
 import filterImg from '~/assets/images/filter.svg'
 import downImg from '~/assets/images/down.svg'
 import CustomSkeletonVue from '~/components/CustomSkeleton'
+import NFTBuyModal from '~/components/modals/NFTBuy'
 
 export default {
   components: {
     NormalCard,
     MarketTab,
-    CustomSkeletonVue
+    CustomSkeletonVue,
+    NFTBuyModal
   },
 
   data() {
@@ -56,6 +60,7 @@ export default {
       loading: true,
       collectionData: [],
       currentCollectionName: '',
+      show_modal: false,
       data: {
         searchIcon: searchImg,
         filterIcon: filterImg,
@@ -109,6 +114,12 @@ export default {
       }
     },
 
+    handleBuyAction(params) {
+      this.show_modal = true
+    },
+    handleCloseModal() {
+      this.show_modal = false
+    },
     async getTemplateStats(collection_name, template_id) {
       return await this.$store.dispatch('api/getTemplateStats', {
         collection_name, template_id

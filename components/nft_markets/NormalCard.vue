@@ -194,7 +194,7 @@
       button.btn-border--green.mr10.radius6.smaller-btn(
         v-if='mode !== "market-auctions" && mode !== "market-sales" && mode !== "inventory" && mode !== "listings" && mode !== "auctions" && mode !== "sold" && mode !== "bought" && mode !== "setsList" && mode !== "assetsInventory" && mode !== "sets"'
       ) Details
-      button.btn-fill--green.bigger-btn.radius6(v-if='mode === "market-sales"') Buy
+      button.btn-fill--green.bigger-btn.radius6(v-if='mode === "market-sales"' @click='handleBuy') Buy
       button.btn-fill--green.bigger-btn.radius6(v-if='mode === "market-auctions"') Make Offer
       button.btn-border--green.w-100.radius6.mb-2(
         v-if='mode === "setsList"'
@@ -216,7 +216,7 @@
 import defaultImg from '~/assets/images/default.png'
 
 export default {
-  props: ['data', 'price', 'mode', 'addTrade', 'cardState', 'getOverData', 'overData'],
+  props: ['data', 'price', 'mode', 'addTrade', 'cardState', 'getOverData', 'overData', 'handleBuyAction'],
 
   data() {
     return {
@@ -623,6 +623,16 @@ export default {
           this.getOverData(params)
         }
       }, 500)
+    },
+    handleBuy() {
+      if (this.mode === 'market-sales') {
+        const params = {
+          template_id: this.data.assets[0].template.template_id,
+          collection_name: this.data.assets[0].collection.collection_name,
+          asset_id: this.data.assets[0].asset_id
+        }
+        this.handleBuyAction(params)
+      }
     }
   }
 }
