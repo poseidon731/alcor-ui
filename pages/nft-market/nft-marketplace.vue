@@ -28,9 +28,9 @@
           :mode='currentTab',
           :getOverData='getInventoryOverData'
           :overData='overData'
-          :handleBuyAction='handleBuyAction(item)'
+          :handleBuyAction='handleBuyAction'
         )
-    NFTBuyModal(:show_modal='show_modal', :handleCloseModal='handleCloseModal')
+    NFTBuyModal(:show_modal='show_modal', :handleCloseModal='handleCloseModal' :data='buyData')
 </template>
 
 <script>
@@ -74,7 +74,7 @@ export default {
     ...mapState(['network', 'user']),
     ...mapState('wallet', ['systemPrice']),
     getPrice() {
-      let price = this.systemPrice
+      const price = this.systemPrice
       return price
     }
   },
@@ -114,7 +114,10 @@ export default {
       }
     },
 
-    handleBuyAction(params) {
+    async handleBuyAction(params) {
+      await this.getInventoryOverData(params)
+      console.log(this.overData.saleData)
+      this.buyData = this.overData.saleData
       this.show_modal = true
     },
     handleCloseModal() {

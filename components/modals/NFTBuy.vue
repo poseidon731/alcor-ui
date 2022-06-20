@@ -19,17 +19,15 @@ el-dialog.nft-modal-container(:visible='is_modal')
               .w-50
                 p.text-white Sale ID
                 p.text-white Collection
-                p.text-white NFT Name
                 p.text-white NFT ID
                 p.text-white Mint Number
                 p.text-white Backed tokens
                 p.text-white Seller
                 p.text-white Price
               .w-50
-                p.text-white Sale ID
-                p.text-white Collection
-                p.text-white NFT Name
-                p.text-white NFT ID
+                p.text-white # {{data[0]?data[0].sale_id:""}}
+                p.text-white {{data[0]?data[0].collection_name:""}}
+                p.text-white # {{data[0]?data[0].assets.asset_id:""}}
                 p.text-white Mint Number
                 p.text-white Backed tokens
                 p.text-white Seller
@@ -41,7 +39,7 @@ el-dialog.nft-modal-container(:visible='is_modal')
 import TradeOfferCard from '~/components/nft_markets/TradeOfferCard'
 export default {
   components: { TradeOfferCard },
-  props: ['show_modal', 'handleCloseModal'],
+  props: ['show_modal', 'handleCloseModal', 'data'],
   computed: {
     is_modal() {
       if (this.show_modal) {
