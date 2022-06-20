@@ -25,13 +25,17 @@ el-dialog.nft-modal-container(:visible='is_modal')
                 p.text-white Seller
                 p.text-white Price
               .w-50
-                p.text-white # {{data[0]?data[0].sale_id:""}}
-                p.text-white {{data[0]?data[0].collection_name:""}}
-                p.text-white # {{data[0]?data[0].assets.asset_id:""}}
+                p.text-white Sale ID
+                p.text-white Collection
+                p.text-white NFT ID
                 p.text-white Mint Number
                 p.text-white Backed tokens
                 p.text-white Seller
                 p.text-white Price
+            .d-flex.align-items-start
+              el-checkbox.pr-2.pb-2
+              span I understand that this NFT is not whitelisted/verified and I made sure the collection is not a fake of another collection.
+            .buy-nft-btn.text-center Buy NFT
 
 </template>
 
@@ -61,14 +65,12 @@ export default {
   position: fixed;
   z-index: 999;
   width: 100vw;
-  height: 100vh;
   top: 0;
   left: 0;
   .el-dialog {
     border-radius: 8px;
     background-color: #212121;
     width: 605px;
-    height: 440px;
     .el-dialog__header {
       display: none;
     }
@@ -106,13 +108,12 @@ export default {
       font-size: 12px;
     }
   }
-  .back-nft-btn {
+  .buy-nft-btn {
     cursor: pointer;
-    margin-top: 157px;
     padding: 13px;
     width: 100%;
     border-radius: 8px;
-    background-color: #333;
+    background-color: #444;
   }
   .tradeoffercard {
     background-color: #161617;
