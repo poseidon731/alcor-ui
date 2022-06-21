@@ -190,7 +190,9 @@
         :charts='chartData',
         v-if='chartData.length',
         tab='Price',
-        period='24H'
+        period='24H',
+        minHeight='450'
+        showPrice=true
       )
       CustomSkeletonVue(v-else, :width='970', :height='588')
 </template>
