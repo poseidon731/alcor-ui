@@ -3,198 +3,53 @@
     nuxt-link(:to='"/wallet-inventory/nfts"', :exact='true')
       a#return-btn Return
     .page-header.d-flex.justify-content-between.row
-      .page-header_text
-        p Visuals
-      .page-header_text.lg-8.md-4.sm-12.xm-12.col-8(style='padding-left: 45px')
-        span.ml-6 Details
-    .d-flex.justify-content-between
-      .nft-image-container.border-radius5
-        .nft-image(v-if='loading')
-          CustomSkeletonVue.mt-2.mx-auto(
-            v-if='loading',
-            :width='249',
-            :height='249'
-          )
-        .nft-image(v-else-if='imageBackground', :style='imageBackground')
-        .nft-image(
-          v-else,
-          :style='{ backgroundImage: `url(${require("~/assets/images/nft.svg")})` }'
-        )
-        CustomSkeletonVue.mt-2.mx-auto(v-if='loading', :width='65', :height='65')
-        button.btn.nft1-container(v-else)
-          .nft1-image(v-if='thumbnailImage', :style='thumbnailImage')
-          .nft1-image(
-            v-else,
-            :style='{ backgroundImage: `url(${require("~/assets/images/nft_sm.svg")})` }'
-          )
-      .nft-info.border-radius5.d-flex.flex-column.justify-content-between
-        .d-flex.justify-content-between
-          .other-info
-            .nft
-              label.description-title NFT Name
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              h4.description-name(v-else) {{ nftName }}
-            .nft
-              label.description-title ID
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              h4(v-else) {{ id }}
-            .nft
-              label.description-fee Collection Name
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              p.wax-exchange(v-else) {{ collectionName }}
-            .nft
-              label.description-fee Schema Name
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              p.wax-exchange(v-else) {{ schemaName }}
-            .nft
-              label.description-fee Backed Tokens
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              p.token-exchange(
-                v-else-if='!loading && backedToken',
-                v-for='(item, index) in backedToken',
-                :key='index'
-              ) {{ item.amount + ' ' + item.token_symbol }}
-              p.token-exchange(v-else) None
-          .description-info
-            .nft
-              label.description-title Owner
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              p.wax-exchange(v-else) {{ owner }}
-            .nft
-              label.description-title Mint Number
-              br
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              span.wax-exchange.mr-2.d-flex.align-items-center(v-else)
-                span {{ template_mint }} of {{ issued_supply }} (max: {{ max_supply }}) -
-                span.color-red.ml-1 {{ issued_supply - template_mint }}
-                img(src='~/assets/images/fire.svg')
-            .nft.mt-2
-              label.description-title Template ID
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              p.wax-exchange(v-else) {{ '#' + template_id }}
-            .nft
-              p.description-title.mb-0 Propertise
-              CustomSkeletonVue(v-if='loading', :width='120', :height='20')
-              div(v-else)
-                div(v-if='is_transferable')
-                  img(src='~/assets/images/double_arrow.svg')
-                  span.ml-2.fs-18 Transfer
-                div(v-if='is_burnable')
-                  img(src='~/assets/images/fire.svg')
-                  span.ml-2.fs-18 Burnable
-        .d-flex.button
-          .burn-btn
-            img(src='~/assets/images/fire.svg')
-            span Burn
-          button.btn.tokens-btn(@click='() => (this.show_modal = true)') Back tokens
-          .create-collection-btn
-            img(src='~/assets/images/tag.svg')
-            | List On Market
-    .row.attribute
-      .attribute.col-4
-        p Attribute
-      .history.col-8
-        p History
-    .d-flex.justify-content-between
-      .nft-Name-container.border-radius5
-        div(v-if='loading')
-          .d-flex.align-items-center.attr(v-for='item in 4', :key='item')
-            CustomSkeletonVue(:width='80', :height='20')
-            CustomSkeletonVue(:width='200', :height='20')
-        .d-flex.attr(
-          v-else,
-          v-for='(item, index) in attributeKeys',
-          :key='index'
-        )
-          span.col-4.text-capitalize {{ (item === 'img' ? 'image' : item) + ':' }}
-          span.col-8.text-detail(
-            v-if='String(assetData.data[item]).indexOf("https:") === 0'
-          )
-            a.color-green(target='_blank', :href='assetData.data[item]') {{ assetData.data[item] }}
-          span.col-8.text-detail(v-else) {{ assetData.data[item] }}
-      .nft-transfer.border-radius5
-        el-tabs.h-100.burnable-tab-pane
-          el-tab-pane(label='Transfers')
-            .row
-              .col-2
-                h5 Event
-              .col-6
-                h5.pl-2 Data
-              .col-4.pl-0
-                h5 Date
-            TransferRow(
-              v-for='(item, index) in transferData',
-              :key='index',
-              :data='item'
-            )
-          el-tab-pane(label='Sales')
-            .row
-              .col-2
-                h5 Event
-              .col-6
-                h5.pl-2 Data
-              .col-4.pl-0
-                h5 Date
-            SalesRow(
-              v-for='(item, index) in salesData',
-              :key='index',
-              :data='item'
-            )
-          el-tab-pane(label='Updates')
-            h1 Updates
-          el-tab-pane(label='Logs')
-            .row
-              .col-2
-                h5 Event
-              .col-6
-                h5.pl-2 Data
-              .col-4.pl-0
-                h5 Date
-            LogsRow(
-              v-for='(item, index) in logsData',
-              :key='index',
-              :data='item'
-            )
-    .d-flex.justify-content-between.row.mt-65.ml-0.mb-1(style='width: 100%')
-      .col-4.price-chart.pl-0
-        p Price Chart
-      .col-7.chart-topline
-        .d-flex.justify-content-between
-          .chart-items
-            p.text-white.mb-0 Lowest Listing:
-            p.weight-400
-              span.color-yellow {{ lowestSales }} WAX
-              | &nbsp;/&nbsp;
-              span.color-green ${{ $systemToUSD(lowestSales) }}
-          .chart-items
-            p.text-white.mb-0 Lowest Sale:
-            p.weight-400
-              span.color-yellow {{ lowestSales }} WAX
-              | &nbsp;/&nbsp;
-              span.color-green ${{ $systemToUSD(lowestSales) }}
-          .chart-items
-            p.text-white.mb-0 Highest Listing:
-            p.weight-400
-              span.color-yellow {{ highestSales }} WAX
-              | &nbsp;/&nbsp;
-              span.color-green ${{ $systemToUSD(highestSales) }}
-          .chart-items
-            p.text-white.mb-0 Highest Sale:
-            p.weight-400
-              span.color-yellow {{ highestSales }} WAX
-              | &nbsp;/&nbsp;
-              span.color-green ${{ $systemToUSD(highestSales) }}
-    NFTBackModal(:show_modal='show_modal', :handleCloseModal='handleCloseModal')
-    .d-flex.justify-content-between
-      Chart(
-        :charts='chartData',
-        v-if='chartData.length',
-        tab='Price',
-        period='24H',
-        minHeight='450'
-        showPrice=true
-      )
-      CustomSkeletonVue(v-else, :width='970', :height='588')
+      .page-header_text Buy Offer: #1009597
+    .bg-c-dark.p-2.rounded.border.border-secondary
+      .d-flex.justify-content-end Created: 6/17/2022 9:46
+      .row
+        .col-6
+          .border.border-success.p-4.rounded
+            h5.text-center.pb-4 offered items: 1
+            .d-flex.justify-content-center.align-items-center
+              Transfer_card
+        .col-6.d-flex.flex-column.align-items-between.justify-content-between
+          div
+            h5.pb-4 Summary
+            .d-flex.justify-content-between.align-items-start
+              h6.text-sm Buy Offered:
+              h6 500 WAX ($61.88)
+            .d-flex.justify-content-between.align-items-start
+              h6 Collection Fee(1%):
+              h6.text-danger 5 WAX ($0.61)
+            .d-flex.justify-content-between.align-items-start
+              h6 Alcor Fee(1%):
+              h6.text-danger 5 WAX ($0.61)
+            .d-flex.justify-content-between.align-items-start.pb-2
+              h6 Tokenomics Fee (1%):
+              h6.text-danger WAX ($0.61)
+            .d-flex.justify-content-between.align-items-center.bg-black.rounded.px-2
+              span Recipient receives:
+              span.text-warning 485 WAX ($60.05)
+          el-button.w-100.float-end(type="danger") Cancel
+    .bg-c-dark.p-4.rounded.mt-4.border.border-secondary
+      .row
+        .col-2
+          span Event
+        .col-6
+          span Data
+        .col-2
+          span Date
+        .col-2
+          span Tx
+      .row.bg-c-black.rounded.mt-1.p-1
+        .col-2
+          span.f-12 lognewbuyo
+        .col-6
+          span.f-12 collection_fee: 0.06 maker_marketplace:
+        .col-2
+          span.f-12 10/25/2021, 6:49 PM
+        .col-2
+          span.f-12 10/25/2021, 6:49 PM
 </template>
 <script>
 import TransferRow from '~/components/nft_markets/TransferRow'
@@ -203,6 +58,7 @@ import LogsRow from '~/components/nft_markets/LogsRow'
 import NFTBackModal from '~/components/modals/NFTBack'
 import Chart from '~/components/nft_markets/Chart'
 import CustomSkeletonVue from '~/components/CustomSkeleton'
+import Transfer_card from '~/components/wallet/cards/transfer_card.vue'
 
 export default {
   components: {
@@ -211,7 +67,8 @@ export default {
     NFTBackModal,
     Chart,
     LogsRow,
-    CustomSkeletonVue
+    CustomSkeletonVue,
+    Transfer_card
   },
 
   data() {
@@ -414,7 +271,17 @@ export default {
   }
 }
 </script>
-
+<style scoped>
+  .f-12 {
+    font-size:12px;
+  }
+ .bg-black {
+  background:#212121
+ }
+ .bg-c-black {
+  background:#161617
+ }
+</style>
 <style lang='scss'>
 .nftburnable {
   .weight-400 {
@@ -498,6 +365,10 @@ export default {
 
   .border-radius5 {
     border-radius: 5px;
+  }
+
+  .bg-c-dark {
+    background-color: #202021;
   }
 
   .pro {
