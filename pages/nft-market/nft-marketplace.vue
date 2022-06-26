@@ -30,7 +30,7 @@
           :overData='overData'
           :handleBuyAction='handleBuyAction'
         )
-    NFTBuyModal(:show_modal='show_modal', :handleCloseModal='handleCloseModal' :data='buyData')
+    NFTBuyModal(:show_modal='show_modal', :handleCloseModal='handleCloseModal', :mode='currentTab' :data='buyData', :overData='overData')
 </template>
 
 <script>
@@ -57,6 +57,7 @@ export default {
       search: '',
       currentTab: 'market-sales',
       marketData: [],
+      currentAssetId: '',
       loading: true,
       collectionData: [],
       currentCollectionName: '',
@@ -116,7 +117,7 @@ export default {
 
     async handleBuyAction(params) {
       await this.getInventoryOverData(params)
-      console.log(this.overData.saleData)
+      this.currentAssetId = params.asset_id
       this.buyData = this.overData.saleData
       this.show_modal = true
     },
