@@ -3,16 +3,33 @@ el-row
   el-col
     el-card(:body-style='{ padding: "0px" }')
       div.d-flex.p-1.justify-content-end
-        div.float-right.p-1.bg-black.text-success #11
-      img.w-100(src='~/assets/images/nft.svg')
+        div.float-right.p-1.bg-black.text-success # {{ mintNum }}
+      img(:src='img' :width='imgWidth')
       .d-flex.justify-content-between.align-items-center.p-3
-        div CandyLand
+        div {{ collectionName }}
         .d-flex.align-items-center
-          div.small.pr-1.text-secondary Alcorex
+          div.small.pr-1.text-secondary {{ immutableName }}
           img(src='~/assets/icons/check-circle.svg')
 </template>
 <script>
 export default {
+  props: {
+    img: {
+      default: 'https://ipfs.atomichub.io/ipfs/QmVgw5njTjSLs8iSkoNGodk7maekhHvrXCdwjs6xxYMZk9'
+    },
+    imgWidth: {
+      default: '100%'
+    },
+    mintNum: {
+      default: '0'
+    },
+    collectionName: {
+      default: 'CandyLand'
+    },
+    immutableName: {
+      default: 'Alcorex'
+    }
+  },
   data() {
     return {
       currentDate: new Date(),
