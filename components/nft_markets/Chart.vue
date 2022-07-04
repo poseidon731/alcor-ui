@@ -225,7 +225,6 @@ export default {
     setCurrentPrice() {
       this.price = this.data.length ? this.data[this.data.length - 1].y : 0
     },
-
     updateChartOptions(options) {
       if (!this.$refs.chart) {
         console.log('LP CHART NOT FOUND..')

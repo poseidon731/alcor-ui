@@ -202,8 +202,8 @@ export const actions = {
       const {
         data
       } = await axios.get(
-        'https://wax.api.atomicassets.io/atomicmarket/v2/sales?order=desc&sort=created' +
-        (limit ? '&limit=' + limit : '') +
+        'https://wax.api.atomicassets.io/atomicmarket/v2/sales?order=desc&sort=created&limit=' +
+        limit +
         (search ? '&search=' + search : '') +
         (state ? '&state=' + state : '') +
         (template_id ? '&template_id=' + template_id : '') +

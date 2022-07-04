@@ -6,7 +6,7 @@
     .row
       .col-6
         .card-frame
-          Transfer_card
+          simpleCard
         el-input.bg-input-black.mt-4(placeholder="Amount of WAX")
         el-input.bg-input-black.my-4(placeholder="Memo")
         h5.mb-2 Historical Price Data (Template based)
@@ -44,16 +44,16 @@
           el-checkbox(label="Only backed NFTs")
           el-checkbox(label="Only whitelisted NFTs")
         .grid-container
-          Transfer_card.p-2(v-for="item in 9" :key='item')
+          simpleCard.p-2(v-for="item in 9" :key='item')
 </template>
 
 <script>
-import Transfer_card from '~/components/wallet/cards/transfer_card.vue'
+import simpleCard from '~/components/wallet/cards/simpleCard.vue'
 import Chart from '~/components/nft_markets/Chart'
 import CustomSkeletonVue from '~/components/CustomSkeleton'
 export default {
   components: {
-    Transfer_card,
+    simpleCard,
     Chart,
     CustomSkeletonVue
   },
