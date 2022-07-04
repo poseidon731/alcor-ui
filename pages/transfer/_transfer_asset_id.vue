@@ -19,25 +19,31 @@
       v-for='(item, index) in bulkTransfer',
       :key='index',
       :data='item',
+      :addTrade="addTrade",
       :mintNum='item.template_mint',
       :collectionName='item.collection.collection_name',
       :immutableName='item.template.immutable_data.name'
     )
   el-input.bg-input-grey.my-4(
+    type='text',
+    :value='searchValue',
+    @focus='focusInput',
+    @blur='blurInput',
+    @input='debounceSearch',
     placeholder='Search NFTs',
     prefix-icon='el-icon-search'
   )
-  el-select.bg-input-grey.mb-4.w-100(
-    v-model='value',
-    large,
-    placeholder='Choose Collection'
-  )
-    el-option(
-      v-for='item in options',
-      :key='item.value',
-      :label='item.label',
-      :value='item.value'
-    )
+  //- el-select.bg-input-grey.mb-4.w-100(
+  //-   v-model='value',
+  //-   large,
+  //-   placeholder='Choose Collection',
+  //- )
+  //-   el-option(
+  //-     v-for='item in invData',
+  //-     :key='item.asset_id',
+  //-     :label='item.name',
+  //-     :value='item.name'
+  //-   )
   el-row.mb-4
     el-col.pr-1(:span='12')
       el-input.bg-input-black(placeholder='Min Mint')
@@ -90,6 +96,7 @@ export default {
       options: [],
       value: '',
       checkList: ['selected and disabled', 'Option A'],
+      searchNFTs: ''
     }
   },
   computed: {
@@ -135,6 +142,12 @@ export default {
     },
     deletebulkTransferItem(id) {
       this.bulkTransfer = this.bulkTransfer.filter((item) => item.asset_id !== id)
+    },
+    focusInput(event) {
+      event.target.parentElement.classList.add('border-bottom--cancel')
+    },
+    blurInput(event) {
+      event.target.parentElement.classList.remove('border-bottom--cancel')
     },
     async handleSearch(key) {
       this.loading = true
@@ -191,6 +204,10 @@ export default {
       this.loading = false
     },
     async transferAsset() {
+      let transfer_assets_id = []
+      this.bulkTransfer.map((data, id) => {
+        transfer_assets_id.push(data.asset_id)
+      })
       if (this.to != '' && this.memo != '') {
         const actions = [
           {
@@ -205,7 +222,7 @@ export default {
             data: {
               from: this.assetData.owner,
               to: this.to,
-              asset_ids: this.asset_ids,
+              asset_ids: transfer_assets_id,
               memo: this.memo,
             },
           },
@@ -227,6 +244,12 @@ export default {
           this.to = ''
           this.memo = ''
         }
+      } else {
+        this.$notify({
+          title: 'Transfer Failed',
+          message: 'Please Input Correct Addres and Memo',
+          type: 'error',
+        })
       }
     },
   },
