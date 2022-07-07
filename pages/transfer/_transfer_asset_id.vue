@@ -248,6 +248,7 @@ export default {
       const data = await this.$store.dispatch('api/getAssetsInventory', {
         owner,
       })
+      console.log(data, "iiiiiiiiiiiiii")
       this.invData = data
       this.loading = false
     },
@@ -286,7 +287,7 @@ export default {
           },
         ]
         try {
-          await this.$store.dispatch('chain/sendTransaction', actions)
+          const tx = await this.$store.dispatch('chain/sendTransaction', actions)
           this.$notify({
             title: 'Asset Transfer',
             message: 'Asset Transferred!',
@@ -301,6 +302,8 @@ export default {
         } finally {
           this.to = ''
           this.memo = ''
+          this.bulkTransfer = []
+          transfer_assets_id.map((asset_id, id) => this.invData = this.invData.filter((data, id) => data.asset_id != asset_id))
         }
       } else {
         this.$notify({
