@@ -316,7 +316,6 @@ export default {
           type: 'success'
         })
       } catch (e) {
-        console.log(e)
         this.$notify({ title: 'Place order', message: e, type: 'error' })
       } finally {
         this.loading = false

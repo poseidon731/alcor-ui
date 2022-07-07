@@ -54,7 +54,6 @@ export default {
           ? increasedAmount.toFixed(2)
           : decreaseAmount.toFixed(2)
       )
-      console.log({ increasedAmount, decreaseAmount, amountToChange })
     }
   }
 }

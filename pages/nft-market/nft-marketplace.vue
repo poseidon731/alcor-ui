@@ -31,6 +31,7 @@
         :handleBuyAction='handleBuyAction'
       )
       NFTBuyModal(
+        :mode='currentTab',
         :show_modal='show_modal',
         :handleCloseModal='handleCloseModal',
         :data='buyData'
@@ -128,7 +129,6 @@ export default {
     },
     async handleBuyAction(params) {
       await this.getInventoryOverData(params)
-      console.log(this.overData.saleData)
       this.buyData = this.overData.saleData
       this.show_modal = true
     },
@@ -172,6 +172,7 @@ export default {
 
     handleCollection(value) {
       this.currentCollectionName = value
+      console.log(this.currentTab, "ttttttttt")
       if (this.currentTab === 'sales') {
         this.getSaleData()
       } else {

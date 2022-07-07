@@ -55,12 +55,10 @@ export default {
     },
 
     deals(to, from, x) {
-      console.log(to.length, from.length)
       if (to.length > from.length) this.gridExecution()
     },
 
     id(to, from) {
-      console.log('market changed!!')
       this.isReady = false
       this.reset()
       //this.load()
