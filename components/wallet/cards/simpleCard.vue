@@ -68,7 +68,6 @@ export default {
       } else return false
     },
     imageBackground() {
-      console.log(this.data,"vvvvvvvvvvvvv")
       if (this.data && this.data.data) {
         return this.data.data.img.includes('https://')
           ? this.data.data.img

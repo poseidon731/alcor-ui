@@ -62,7 +62,7 @@
           )
         .grid-container(v-else)
           simpleCard(
-             v-for='(item, index) in invData',
+            v-for='(item, index) in invData',
             :key='index',
             :data='item',
             :addTrade="addTrade",
@@ -131,9 +131,9 @@ export default {
     }
   },
   computed: {
-    owner() {
-      return this.assetData.owner
-    },
+    // owner() {
+    //   return this.assetData.owner
+    // },
     template_mint() {
       if (this.assetData) {
         return this.assetData.template_mint
@@ -150,7 +150,6 @@ export default {
       } else return ''
     },
   },
-  
   methods: {
     async getChartData(template_id, schema_name, burned) {
       this.chartData = await this.$store.dispatch('api/getChartData', {
