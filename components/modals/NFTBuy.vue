@@ -4,7 +4,7 @@ el-dialog.nft-modal-container(:visible='is_modal')
   .nft-modal
     .row
       .d-flex.justify-content-center.align-items-center.w-100
-        .col-5 {{videoBackground}}
+        .col-5
           //- .main-img(v-if='videoBackground')
           //-   video(:class="['main-img', 'radius10', (mode === 'setsList' ? 'sets-list-mode' : '')]", autoplay='true', loop='true')
           //-     source(
@@ -95,7 +95,7 @@ export default {
           return {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundImage: this.data[0].assets[0].data.img.includes('https://')
+            backgroundImage: this.data[0].assets[0].data.img?.includes('https://')
               ? this.data[0].assets[0].data.img
               : 'url(https://ipfs.atomichub.io/ipfs/' +
                 this.data[0].assets[0].data.img +
@@ -155,11 +155,50 @@ export default {
     toggleModal() {
       this.handleCloseModal()
     },
-    buyNFT() {
-      this.$store.dispatch('market/fetchBuy', 'eeee')
+    async buyNFT() {
+      console.log(this.data[0], "dddd")
+      const amount = parseFloat(this.data[0].listing_price).toFixed(this.data[0].price.token_precision)
+      const total = parseFloat(this.data[0].price.amount).toFixed(this.data[0].price.token_precision)
+      // return
+      const actions = [
+        {
+          account: 'atomicassets',
+          name: 'transfer',
+          authorization: [
+            {
+              actor: this.data[0].assets[0].owner,
+              permission: 'active',
+            },
+          ],
+          data: {
+            from: this.data[0].sale_id,
+            asset_ids_to_assert: this.data[0].assets[0].asset_id,
+            listing_price_to_assert: `${amount} ${this.data[0].price.token_symbol}`,
+            settlement_symbol_to_assert: `${this.data[0].price.token_precision} ${this.data[0].price.token_symbol}`
+          },
+        },
+      ]
+      console.log(actions, "Aaaaaa")
+      // return
+      try {
+        await this.$store.dispatch('chain/sendTransaction', actions)
+        this.$notify({
+          title: 'Asset Transfer',
+          message: 'Asset Transferred!',
+          type: 'success',
+        })
+      } catch (e) {
+        console.log(e, "wwwwwww")
+        this.$notify({
+          title: 'Asset Transfer',
+          message: e,
+          type: 'error',
+        })
+      } finally {
+      }
     },
     makeOffer() {
-      this.$router.push(`/nft-market/make_buy_offer/${this.getSeller},${this.assetId}`)
+      this.$router.push(`/nft-market/make_buy_offer/${this.assetId}`)
     }
   },
 }

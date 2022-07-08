@@ -1,7 +1,7 @@
 <template lang="pug">
 .normalcard.radius10.tradeoffercard
   header.d-flex.flex-column.justify-content-between.mb-2
-    div.d-flex.justify-content-content
+    div.d-flex.justify-content-between
       div
         img(src='~/assets/images/small_shape.svg' style="width:21px;height:21px")
         span.card-title {{mint}}
