@@ -165,8 +165,12 @@ export default {
   },
   methods: {
     debounceSearch(event) {
-      this.searchValue = event
+      console.log(event, "111111111")
       this.handleSearch(event)
+      // clearTimeout(this.debounce)
+      // this.debounce = setTimeout(() => {
+      //   this.recipientName = event.target.value
+      // }, 600)
     },
     handleCollection(event) {
       this.currentCollectionName = event
