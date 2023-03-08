@@ -252,9 +252,7 @@ export default {
         this.amountChange()
 
         this.$notify({ title: 'Withdraw', message: 'Success', type: 'success' })
-        console.log(r)
       } catch (e) {
-        console.log(e)
         this.$notify({ title: 'Place order', message: e, type: 'error' })
       } finally {
         this.loading = false

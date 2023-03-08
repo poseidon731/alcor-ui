@@ -234,7 +234,7 @@ export const actions = {
 
   setMarket({ state, dispatch, commit }, market) {
     commit('setDeals', [])
-
+    console.log('setMarket')
     if (process.client) {
       if (state.id) {
         dispatch('startStream', market.id)
@@ -445,7 +445,7 @@ export const actions = {
     const { user, network } = rootState
     let amount = null
     let total = null
-
+    console.log(state.quote_token, "yyyyyy")
     if (trade == 'limit') {
       amount = parseFloat(state.amount_buy).toFixed(state.quote_token.symbol.precision)
       total = parseFloat(state.total_buy).toFixed(state.base_token.symbol.precision)
@@ -477,6 +477,7 @@ export const actions = {
 
       return { err: false, desc: res }
     } catch (e) {
+      console.log(e, "errrr")
       captureException(e, { extra: { order: this.order } })
       return { err: true, desc: e }
     }

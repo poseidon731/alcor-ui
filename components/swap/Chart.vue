@@ -254,7 +254,6 @@ export default {
 
     updateChartOprions(options) {
       if (!this.$refs.chart) {
-        console.log('LP CHART NOT FOUND..')
         return
       }
 
@@ -292,7 +291,6 @@ export default {
           data.push({ x: point.time, y: this.isReverted ? point.volume2.toFixed(6) : point.volume1.toFixed(6) })
         }
       })
-      console.log('updateSeries, data', data.length)
 
       this.data = data
       this.$refs.chart.updateOptions(

@@ -77,7 +77,6 @@ export default {
 
         this.history = history
       } catch (e) {
-        console.log(e)
         this.$notify({ title: 'Load history', message: e.message, type: 'error' })
       } finally {
         this.loading = false

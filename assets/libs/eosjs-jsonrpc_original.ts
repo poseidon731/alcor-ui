@@ -60,7 +60,6 @@ export class JsonRpc implements AuthorityProvider, AbiProvider {
             }
 
             this.currentEndpoint = this.endpoints[0];
-            console.log('Switched to API:', this.currentEndpoint);
         }
     }
 
@@ -78,14 +77,11 @@ export class JsonRpc implements AuthorityProvider, AbiProvider {
                 throw new RpcError(json);
             }
         } catch (e) {
-            console.log('Error from', this.currentEndpoint, e)
-
             e.isFetchError = true;
 
             if (this.endpoints.length > 1) {
                 this.nextEndpoint()
                 if (currentRetries < this.maxRetries)  {
-                    console.log('Retrying at try:' , currentRetries)
                     return this.fetch(path, body, ++currentRetries)
                 } else {
                     throw e;
@@ -103,12 +99,8 @@ export class JsonRpc implements AuthorityProvider, AbiProvider {
             const secondsBehind = (ct - headTime) / 1000
 
             if (secondsBehind > 20 && this.endpoints.length > 1) {
-                console.log('API is SYNCING (behind)', this.currentEndpoint)
-                console.log(`Current Time: ${ct}, Head Time: ${headTime}, Seconds Behind: ${secondsBehind}`)
-
                 this.nextEndpoint()
                 if (currentRetries < this.maxRetries)  {
-                    console.log('Retrying at try:' , currentRetries)
                     return this.fetch(path, body, ++currentRetries)
                 }
             }

@@ -71,7 +71,6 @@ export default {
   },
   methods: {
     debug() {
-      console.log('this.data', this.data.buy.quantity.replaceAll('WAX', ''))
     },
   },
 }

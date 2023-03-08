@@ -149,7 +149,6 @@ export default {
           )[0]
 
           if (!pair) {
-            console.log('NOT FOUND PAIR FOR LP TOKEN: ', b.currency)
             position.pair = { name: b.currency }
             //  && account == network.pools.contract
             position.asset1 = '0.0000'

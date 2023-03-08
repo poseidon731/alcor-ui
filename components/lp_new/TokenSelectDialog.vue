@@ -38,7 +38,6 @@ export default {
     },
     async getTokensList() {
       const res = await this.getTokens()
-      console.log(res)
       this.tokensList = res
     },
     onItemClick(token) {

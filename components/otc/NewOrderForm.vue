@@ -138,7 +138,6 @@ export default {
     },
 
     baseToken() {
-      console.log('baseToken', this.$store.state.network.baseToken)
       return this.$store.state.network.baseToken
     }
   },
@@ -164,11 +163,9 @@ export default {
       try {
         const stat = await this.$store.dispatch('api/getToken', { code: token.contract, symbol: token.symbol })
         precision = stat.supply.symbol.precision()
-        console.log(precision)
       } catch (e) {
         captureException(e, { extra: { token } })
         this.$notify({ title: 'Fetch token', message: e.message, type: 'warning' })
-        console.log(e)
       }
 
       this.form.buy = {
@@ -235,7 +232,6 @@ export default {
       } catch (e) {
         captureException(e, { extra: { form } })
         this.$notify({ title: 'Place order', message: e.message, type: 'error' })
-        console.log(e)
       } finally {
         loading.close()
       }
